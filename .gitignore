@@ -166,3 +166,4 @@ bin/
 
 # Ignore CSV files because readings.csv exceeds GitHub's 100Mb limit
 *.csv
+*.iml
