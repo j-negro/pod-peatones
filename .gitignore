@@ -163,3 +163,9 @@ buildNumber.properties
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij,maven
 
 bin/
+
+api/tpe2-g8-api.iml
+
+client/tpe2-g8-client.iml
+
+*.iml
