@@ -8,13 +8,13 @@ import java.io.IOException;
 
 public class Reading implements DataSerializable {
 
-    private final Sensor sensor;
-    private final Integer year;
-    private final String month;
-    private final Integer mDate;
-    private final String day;
-    private final Integer hour;
-    private final Integer hourlyCounts;
+    private Sensor sensor;
+    private Integer year;
+    private String month;
+    private Integer mDate;
+    private String day;
+    private Integer hour;
+    private Integer hourlyCounts;
 
     public Reading(Sensor sensor, Integer year, String month, Integer mDate, String day, Integer hour, Integer hourlyCounts) {
         this.sensor = sensor;
@@ -30,12 +30,38 @@ public class Reading implements DataSerializable {
 
     @Override
     public void writeData(ObjectDataOutput out) throws IOException {
-
+        out.writeObject(sensor);
+        out.writeInt(year);
+        out.writeUTF(month);
+        out.writeInt(mDate);
+        out.writeUTF(day);
+        out.writeInt(hour);
+        out.writeInt(hourlyCounts);
     }
 
     @Override
     public void readData(ObjectDataInput in) throws IOException {
+        sensor = in.readObject();
+        year = in.readInt();
+        month = in.readUTF();
+        mDate = in.readInt();
+        day = in.readUTF();
+        hour = in.readInt();
+        hourlyCounts = in.readInt();
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Reading reading = (Reading) obj;
+        return sensor.equals(reading.sensor) &&
+                year.equals(reading.year) &&
+                month.equals(reading.month) &&
+                mDate.equals(reading.mDate) &&
+                day.equals(reading.day) &&
+                hour.equals(reading.hour) &&
+                hourlyCounts.equals(reading.hourlyCounts);
     }
 
     public Sensor getSensor() {
@@ -50,7 +76,7 @@ public class Reading implements DataSerializable {
         return month;
     }
 
-    public Integer getmDate() {
+    public Integer getMDate() {
         return mDate;
     }
 
