@@ -8,45 +8,43 @@ import java.io.IOException;
 
 public class Reading implements DataSerializable {
 
-    private Sensor sensor;
-    private Integer year;
+    private int sensorId;
+    private int year;
     private String month;
-    private Integer mDate;
+    private int mDate;
     private String day;
-    private Integer hour;
-    private Integer hourlyCounts;
+    private int time;
+    private int hourlyCounts;
 
-    public Reading(Sensor sensor, Integer year, String month, Integer mDate, String day, Integer hour, Integer hourlyCounts) {
-        this.sensor = sensor;
+    public Reading(int year, String month, int mDate, String day, int time, int sensorId, int hourlyCounts) {
+        this.sensorId = sensorId;
         this.year = year;
         this.month = month;
         this.mDate = mDate;
         this.day = day;
-        this.hour = hour;
+        this.time = time;
         this.hourlyCounts = hourlyCounts;
     }
 
-
-
     @Override
     public void writeData(ObjectDataOutput out) throws IOException {
-        out.writeObject(sensor);
+        out.writeInt(sensorId);
         out.writeInt(year);
         out.writeUTF(month);
         out.writeInt(mDate);
         out.writeUTF(day);
-        out.writeInt(hour);
+        out.writeInt(time);
         out.writeInt(hourlyCounts);
     }
 
     @Override
     public void readData(ObjectDataInput in) throws IOException {
-        sensor = in.readObject();
+        sensorId = in.readInt();
         year = in.readInt();
         month = in.readUTF();
         mDate = in.readInt();
         day = in.readUTF();
-        hour = in.readInt();
+        time = in.readInt();
         hourlyCounts = in.readInt();
     }
 
@@ -55,20 +53,20 @@ public class Reading implements DataSerializable {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Reading reading = (Reading) obj;
-        return sensor.equals(reading.sensor) &&
-                year.equals(reading.year) &&
+        return sensorId == reading.sensorId &&
+                year == reading.year &&
                 month.equals(reading.month) &&
-                mDate.equals(reading.mDate) &&
+                mDate == reading.mDate &&
                 day.equals(reading.day) &&
-                hour.equals(reading.hour) &&
-                hourlyCounts.equals(reading.hourlyCounts);
+                time == reading.time &&
+                hourlyCounts == reading.hourlyCounts;
     }
 
-    public Sensor getSensor() {
-        return sensor;
+    public int getSensorId() {
+        return sensorId;
     }
 
-    public Integer getYear() {
+    public int getYear() {
         return year;
     }
 
@@ -76,7 +74,7 @@ public class Reading implements DataSerializable {
         return month;
     }
 
-    public Integer getMDate() {
+    public int getMDate() {
         return mDate;
     }
 
@@ -84,13 +82,12 @@ public class Reading implements DataSerializable {
         return day;
     }
 
-    public Integer getHour() {
-        return hour;
+    public int getTime() {
+        return time;
     }
 
-    public Integer getHourlyCounts() {
+    public int getHourlyCounts() {
         return hourlyCounts;
     }
-
 
 }

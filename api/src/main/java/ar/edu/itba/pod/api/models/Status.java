@@ -7,9 +7,9 @@ import com.hazelcast.nio.serialization.DataSerializable;
 import java.io.IOException;
 
 public enum Status implements DataSerializable {
-    A("A"),
-    M("M"),
-    R("R");
+    ACTIVE("A"),
+    REMOVED("R"),
+    INACTIVE("I");
 
     private final String status;
 
