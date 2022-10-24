@@ -9,9 +9,9 @@ import java.util.Objects;
 
 public class Sensor implements DataSerializable {
 
-    private final int sensorId;
-    private final String description;
-    private final Status status;
+    private int sensorId;
+    private String description;
+    private Status status;
 
     public Sensor(int sensorId, String description, Status status) {
         this.sensorId = sensorId;
@@ -40,7 +40,9 @@ public class Sensor implements DataSerializable {
 
     @Override
     public void readData(ObjectDataInput in) throws IOException {
-
+        this.sensorId = in.readInt();
+        this.description = in.readUTF();
+        this.status = in.readObject();
     }
 
     @Override
