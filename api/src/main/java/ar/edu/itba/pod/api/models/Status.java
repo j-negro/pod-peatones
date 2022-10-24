@@ -11,7 +11,7 @@ public enum Status implements DataSerializable {
     REMOVED("R"),
     INACTIVE("I");
 
-    private final String status;
+    private String status;
 
     Status(String status) {
         this.status = status;
@@ -19,11 +19,20 @@ public enum Status implements DataSerializable {
 
     @Override
     public void writeData(ObjectDataOutput out) throws IOException {
-
+        out.writeUTF(status);
     }
 
     @Override
     public void readData(ObjectDataInput in) throws IOException {
+        this.status = in.readUTF();
+    }
 
+    public static Status from(String status) {
+        for (Status s : Status.values()) {
+            if (status.equals(s.status)) {
+                return s;
+            }
+        }
+        throw new IllegalArgumentException(status);
     }
 }

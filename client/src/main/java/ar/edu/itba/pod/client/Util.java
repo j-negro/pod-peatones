@@ -1,23 +1,54 @@
 package ar.edu.itba.pod.client;
 
+import ar.edu.itba.pod.api.models.Reading;
+import ar.edu.itba.pod.api.models.Sensor;
+import ar.edu.itba.pod.api.models.Status;
+import com.hazelcast.core.IList;
+import com.hazelcast.core.IMap;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Util {
-    public static List<List<String>> parseCSV(Path path, char separator) throws IOException {
-        List<String> lines = Files.readAllLines(path);
-        List<List<String>> csv = new ArrayList<>();
-        for (final String line : lines) {
-            csv.add(parseLine(line, separator));
-        }
-        return csv;
+    public static Collection<Reading> readReadings(Path path) throws IOException {
+        return Files.readAllLines(path)
+                .parallelStream().skip(1)
+                .map(l -> l.split(";"))
+                .map(v -> new Reading(
+                        Integer.parseInt(v[2]),
+                        v[3],
+                        Integer.parseInt(v[4]),
+                        v[5],
+                        Integer.parseInt(v[6]),
+                        Integer.parseInt(v[7]),
+                        Integer.parseInt(v[9])
+                ))
+                .collect(Collectors.toList());
     }
 
-    public static List<String> parseLine(String line, char separator) {
-        return new ArrayList<>(Arrays.asList(line.split(String.valueOf(separator))));
+    public static Collection<Sensor> readSensors(Path path) throws IOException {
+        return Files.readAllLines(path)
+                .parallelStream().skip(1)
+                .map(l -> l.split(";"))
+                .map(v -> new Sensor(
+                        Integer.parseInt(v[0]),
+                        v[1],
+                        Status.from(v[4])
+                ))
+                .collect(Collectors.toList());
+    }
+
+    public static void importReadings(IList<Reading> list, Collection<Reading> collection) {
+        list.addAll(collection);
+    }
+
+    public static void importSensors(IMap<Integer, Sensor> map, Collection<Sensor> collection) {
+        collection.parallelStream().forEach(s -> map.put(s.getSensorId(), s));
     }
 }
