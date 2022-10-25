@@ -13,6 +13,8 @@ public enum Status implements DataSerializable {
 
     private String status;
 
+    Status() {}
+
     Status(String status) {
         this.status = status;
     }
