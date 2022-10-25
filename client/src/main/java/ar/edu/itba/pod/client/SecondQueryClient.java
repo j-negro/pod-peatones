@@ -1,5 +1,6 @@
 package ar.edu.itba.pod.client;
 
+import ar.edu.itba.pod.api.collators.SecondQueryCollator;
 import ar.edu.itba.pod.api.mappers.SecondQueryMapper;
 import ar.edu.itba.pod.api.models.Pair;
 import ar.edu.itba.pod.api.models.Reading;
@@ -13,6 +14,7 @@ import com.hazelcast.mapreduce.KeyValueSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -31,19 +33,21 @@ public class SecondQueryClient extends Query {
         IList<Reading> readings = query.setupReadingsList();
         query.logTime();
 
-        JobTracker t = query.client.getJobTracker("count-by-weekday");
+        JobTracker t = query.client.getJobTracker("g8-count-by-year-and-weekday");
         final KeyValueSource<String, Reading> sourceList = KeyValueSource.fromList(readings);
         Job<String, Reading> job = t.newJob(sourceList);
 
         query.logTime();
-        ICompletableFuture<Map<Integer, Pair<Integer, Integer>>> future = job.mapper(new SecondQueryMapper()).reducer(new SecondQueryReducerFactory()).submit();
-        Map<Integer, Pair<Integer, Integer>> result = future.get();
+        ICompletableFuture<List<Map.Entry<Integer, Pair<Integer, Integer>>>> future = job
+                .mapper(new SecondQueryMapper())
+                .reducer(new SecondQueryReducerFactory())
+                .submit(new SecondQueryCollator());
+        List<Map.Entry<Integer, Pair<Integer, Integer>>> result = future.get();
         query.logTime();
 
         query.outputLine("Year;Weekdays_Count;Weekends_Count;Total_Count");
-        for (Integer year : result.keySet()) {
-            Pair<Integer, Integer> pair = result.get(year);
-            query.outputLine(year + ";" + pair.getFirst() + ";" + pair.getSecond() + ";" + (pair.getFirst() + pair.getSecond()));
+        for (Map.Entry<Integer, Pair<Integer, Integer>> entry : result) {
+            query.outputLine(entry.getKey() + ";" + entry.getValue().getFirst() + ";" + entry.getValue().getSecond() + ";" + (entry.getValue().getFirst() + entry.getValue().getSecond()));
         }
 
         query.shutdown();
