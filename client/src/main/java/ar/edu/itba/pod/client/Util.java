@@ -36,7 +36,7 @@ public class Util {
                 .map(v -> new Sensor(
                         Integer.parseInt(v[0]),
                         v[1],
-                        Status.from(v[4])
+                        v[4]
                 ))
                 .collect(Collectors.toList());
     }

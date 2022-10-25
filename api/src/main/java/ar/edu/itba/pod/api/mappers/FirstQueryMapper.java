@@ -22,7 +22,7 @@ public class FirstQueryMapper implements Mapper<String, Reading, String, Long>, 
         IMap<Integer, Sensor> map = hazelcastInstance.getMap("sensors");
 
         Sensor sensor = map.get(reading.getSensorId());
-        if(sensor.getStatus() == Status.ACTIVE)
+        if(sensor.getStatus().compareTo("A") == 0 )
             context.emit(sensor.getDescription(), (long) reading.getHourlyCounts());
     }
 
