@@ -40,9 +40,10 @@ public class SecondQueryClient extends Query {
         Map<Integer, Pair<Integer, Integer>> result = future.get();
         query.logTime();
 
+        query.outputLine("Year;Weekdays_Count;Weekends_Count;Total_Count");
         for (Integer year : result.keySet()) {
             Pair<Integer, Integer> pair = result.get(year);
-            query.outputLine(year + ";" + pair.getFirst() + ";" + pair.getSecond() + ";" + pair.getFirst() + pair.getSecond() + '\n');
+            query.outputLine(year + ";" + pair.getFirst() + ";" + pair.getSecond() + ";" + (pair.getFirst() + pair.getSecond()));
         }
 
         HazelcastClient.shutdownAll();
