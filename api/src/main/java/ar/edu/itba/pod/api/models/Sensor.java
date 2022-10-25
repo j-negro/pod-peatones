@@ -11,11 +11,11 @@ public class Sensor implements DataSerializable {
 
     private int sensorId;
     private String description;
-    private Status status;
+    private String status;
 
     public Sensor() {}
 
-    public Sensor(int sensorId, String description, Status status) {
+    public Sensor(int sensorId, String description, String status) {
         this.sensorId = sensorId;
         this.description = description;
         this.status = status;
@@ -29,7 +29,7 @@ public class Sensor implements DataSerializable {
         return this.description;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -37,14 +37,14 @@ public class Sensor implements DataSerializable {
     public void writeData(ObjectDataOutput out) throws IOException {
         out.writeInt(this.sensorId);
         out.writeUTF(this.description);
-        out.writeObject(this.status);
+        out.writeUTF(this.status);
     }
 
     @Override
     public void readData(ObjectDataInput in) throws IOException {
         this.sensorId = in.readInt();
         this.description = in.readUTF();
-        this.status = in.readObject();
+        this.status = in.readUTF();
     }
 
     @Override
