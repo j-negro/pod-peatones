@@ -13,6 +13,8 @@ public class Sensor implements DataSerializable {
     private String description;
     private Status status;
 
+    public Sensor() {}
+
     public Sensor(int sensorId, String description, Status status) {
         this.sensorId = sensorId;
         this.description = description;
