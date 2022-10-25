@@ -131,6 +131,8 @@ public abstract class Query {
             LOGGER.error("Could not output result to {}, {}", this.outPath, e.getMessage());
             System.exit(1);
         }
+        client.getMap("sensors").clear();
+        client.getList("readings").clear();
         HazelcastClient.shutdownAll();
     }
 }

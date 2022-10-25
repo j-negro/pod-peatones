@@ -38,8 +38,9 @@ public class FirstQueryClient extends Query {
         Map<String, Long> result = future.get();
         query.logTime();
 
+        query.outputLine("Sensor;Total_Count");
         for(String sensorName: result.keySet()){
-            query.outputLine(sensorName + ";" + result.get(sensorName)+'\n');
+            query.outputLine(sensorName + ";" + result.get(sensorName));
         }
 
         query.shutdown();

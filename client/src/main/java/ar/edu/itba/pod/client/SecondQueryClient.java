@@ -46,6 +46,6 @@ public class SecondQueryClient extends Query {
             query.outputLine(year + ";" + pair.getFirst() + ";" + pair.getSecond() + ";" + (pair.getFirst() + pair.getSecond()));
         }
 
-        HazelcastClient.shutdownAll();
+        query.shutdown();
     }
 }
