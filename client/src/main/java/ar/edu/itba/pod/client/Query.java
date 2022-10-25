@@ -1,5 +1,6 @@
 package ar.edu.itba.pod.client;
 
+import ar.edu.itba.pod.api.HazelcastCollections;
 import ar.edu.itba.pod.api.models.Reading;
 import ar.edu.itba.pod.api.models.Sensor;
 import com.hazelcast.client.HazelcastClient;
@@ -24,8 +25,6 @@ public abstract class Query {
 
     private final String inPath = getProperty("inPath", "/afs/it.itba.edu.ar/pub/pod");
     private static final Logger LOGGER = LoggerFactory.getLogger(Query.class);
-    private static final String SENSORS = "g8-sensors";
-    private static final String READINGS = "g8-readings";
 
     private final TimeStampLogger timeStampLogger;
     private final BufferedWriter writer;
@@ -75,7 +74,7 @@ public abstract class Query {
     }
 
     public IMap<Integer, Sensor> setupSensorsMap() {
-        IMap<Integer, Sensor> map = client.getMap(SENSORS);
+        IMap<Integer, Sensor> map = client.getMap(HazelcastCollections.SENSORS);
 
         Path path = Path.of(inPath, "sensors.csv");
         Collection<Sensor> sensors = null;
@@ -93,7 +92,7 @@ public abstract class Query {
     }
 
     public IList<Reading> setupReadingsList() {
-        IList<Reading> list = client.getList(READINGS);
+        IList<Reading> list = client.getList(HazelcastCollections.READINGS);
 
         Path path = Path.of(inPath, "readings.csv");
         Collection<Reading> readings = null;
@@ -134,8 +133,8 @@ public abstract class Query {
             LOGGER.error("Could not output result to {}, {}", this.outPath, e.getMessage());
             System.exit(1);
         }
-        client.getMap(SENSORS).clear();
-        client.getList(READINGS).clear();
+        client.getMap(HazelcastCollections.SENSORS).clear();
+        client.getList(HazelcastCollections.READINGS).clear();
         HazelcastClient.shutdownAll();
     }
 }
