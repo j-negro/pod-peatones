@@ -28,14 +28,8 @@ public class Server {
 
         JoinConfig joinConfig = new JoinConfig().setMulticastConfig(multicastConfig);
 
-        String addressMask = getProperty("addressMask");
-        logger.info("Using custom address mask, {}", addressMask);
-
-        if (addressMask == null) {
-            addressMask = "127.0.0.*";
-        } else {
-            logger.info("Using custom address mask, {}", addressMask);
-        }
+        String addressMask = getProperty("addressMask", "127.0.0.*");
+        logger.info("Using address mask, {}", addressMask);
 
         InterfacesConfig interfacesConfig = new InterfacesConfig().setInterfaces(Collections.singletonList(addressMask)).setEnabled(true);
 
