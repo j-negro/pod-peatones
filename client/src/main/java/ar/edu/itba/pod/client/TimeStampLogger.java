@@ -26,6 +26,7 @@ public class TimeStampLogger {
     public void log() {
         Date now = new Date();
         try {
+            // FIXME: Make me actually write something
             bw.write(sdf.format(now) + " - " + status);
         } catch (Exception e) {
             logger.error("Could not log timestamps");
@@ -46,6 +47,9 @@ public class TimeStampLogger {
                 status = Status.END_MAPREDUCE;
                 break;
             case END_MAPREDUCE:
+                status = null;
+                break;
+            default:
                 throw new IllegalStateException();
         }
     }
