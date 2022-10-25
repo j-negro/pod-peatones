@@ -3,7 +3,6 @@ package ar.edu.itba.pod.client;
 import ar.edu.itba.pod.api.mappers.FirstQueryMapper;
 import ar.edu.itba.pod.api.models.Reading;
 import ar.edu.itba.pod.api.reducers.FirstQueryReducer;
-import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.core.ICompletableFuture;
 import com.hazelcast.core.IList;
 import com.hazelcast.mapreduce.Job;
@@ -43,6 +42,6 @@ public class FirstQueryClient extends Query {
             query.outputLine(sensorName + ";" + result.get(sensorName)+'\n');
         }
 
-        HazelcastClient.shutdownAll();
+        query.shutdown();
     }
 }

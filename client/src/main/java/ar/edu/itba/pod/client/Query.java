@@ -117,9 +117,20 @@ public abstract class Query {
     public void outputLine(String line) {
         try {
             writer.write(line);
+            writer.newLine();
         } catch (IOException e) {
             LOGGER.error("Could not output result to {}, {}", this.outPath, e.getMessage());
             System.exit(1);
         }
+    }
+
+    public void shutdown() {
+        try {
+            writer.close();
+        } catch (IOException e) {
+            LOGGER.error("Could not output result to {}, {}", this.outPath, e.getMessage());
+            System.exit(1);
+        }
+        HazelcastClient.shutdownAll();
     }
 }
