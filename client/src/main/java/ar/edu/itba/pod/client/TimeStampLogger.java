@@ -3,7 +3,6 @@ package ar.edu.itba.pod.client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -16,18 +15,17 @@ public class TimeStampLogger {
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss:SSSS");
     private Status status;
-    private final BufferedWriter bw;
+    private final FileWriter writer;
 
     public TimeStampLogger(Path outPath) throws IOException {
         this.status = Status.START_READ;
-        this.bw = new BufferedWriter(new FileWriter(outPath.toFile(), true));
+        this.writer = new FileWriter(outPath.toFile(), true);
     }
 
     public void log() {
         Date now = new Date();
         try {
-            // FIXME: Make me actually write something
-            bw.write(sdf.format(now) + " - " + status);
+            writer.write(sdf.format(now) + " - " + status + '\n');
         } catch (Exception e) {
             logger.error("Could not log timestamps");
         } finally {
