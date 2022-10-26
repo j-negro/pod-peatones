@@ -1,5 +1,6 @@
 package ar.edu.itba.pod.api.mappers;
 
+import ar.edu.itba.pod.api.HazelcastCollections;
 import ar.edu.itba.pod.api.models.Pair;
 import ar.edu.itba.pod.api.models.Reading;
 import ar.edu.itba.pod.api.models.Sensor;
@@ -25,7 +26,7 @@ public class ThirdQueryMapper implements
 
     @Override
     public void map(String s, Reading reading, Context<String, Pair<Integer, LocalDateTime>> context) {
-        final IMap<Integer, Sensor> map = hazelcastInstance.getMap("sensors");
+        final IMap<Integer, Sensor> map = hazelcastInstance.getMap(HazelcastCollections.SENSORS);
         final Sensor sensor = map.get(reading.getSensorId());
         if(reading.getHourlyCounts() > threshold && sensor != null && sensor.isActive()) {
             final LocalDateTime dateTime = LocalDateTime.parse(
