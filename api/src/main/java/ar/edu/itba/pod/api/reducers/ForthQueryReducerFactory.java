@@ -25,7 +25,7 @@ public class ForthQueryReducerFactory implements
             public void reduce(Pair<String, Integer> entry) {
                 if (entry.getFirst() == null || entry.getSecond() == null) return;
 
-                monthToAvg.putIfAbsent(entry.getFirst(), new Pair<>()); // Add entry to month
+                monthToAvg.putIfAbsent(entry.getFirst(), new Pair<>(0L, 0)); // Add entry to month
                 Pair<Long, Integer> monthCount = monthToAvg.get(entry.getFirst());
                 monthCount.setFirst(monthCount.getFirst() + entry.getSecond());
                 monthCount.setSecond(monthCount.getSecond() + 1);
