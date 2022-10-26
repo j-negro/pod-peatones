@@ -73,7 +73,7 @@ public class ForthQueryClient extends Query {
                     ';' +
                     entry.getValue().getFirst() +
                     ';' +
-                    entry.getValue().getSecond();
+                    String.format("%.2f", entry.getValue().getSecond());
             query.outputLine(line);
         }
         query.logTime();
