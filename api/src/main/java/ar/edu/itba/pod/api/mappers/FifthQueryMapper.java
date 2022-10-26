@@ -1,11 +1,5 @@
 package ar.edu.itba.pod.api.mappers;
 
-import ar.edu.itba.pod.api.models.Pair;
-import ar.edu.itba.pod.api.models.Reading;
-import ar.edu.itba.pod.api.models.Sensor;
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.HazelcastInstanceAware;
-import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Context;
 import com.hazelcast.mapreduce.Mapper;
 
