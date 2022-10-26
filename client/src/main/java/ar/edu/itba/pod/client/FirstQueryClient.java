@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.concurrent.ExecutionException;
 
 public class FirstQueryClient extends Query {
@@ -36,10 +38,10 @@ public class FirstQueryClient extends Query {
         Job<String, Reading> job = t.newJob(sourceList);
 
         query.logTime();
-        ICompletableFuture<List<Map.Entry<String, Long>>> future = job.mapper( new FirstQueryMapper() )
+        ICompletableFuture<SortedSet<Map.Entry<String, Long>>> future = job.mapper( new FirstQueryMapper() )
                 .reducer( new FirstQueryReducerFactory() ).submit( new FirstQueryColator());
 
-        List<Map.Entry<String, Long>> result = future.get();
+        SortedSet<Map.Entry<String, Long>> result = future.get();
 
         query.outputLine("Sensor;Total_Count");
         for(Map.Entry<String, Long> sensor: result){
