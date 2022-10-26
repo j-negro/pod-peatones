@@ -33,6 +33,10 @@ public class Sensor implements DataSerializable {
         return status;
     }
 
+    public boolean isActive() {
+        return status.equals("A");
+    }
+
     @Override
     public void writeData(ObjectDataOutput out) throws IOException {
         out.writeInt(this.sensorId);
