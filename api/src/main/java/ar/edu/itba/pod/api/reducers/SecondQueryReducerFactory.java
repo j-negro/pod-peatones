@@ -4,9 +4,9 @@ import ar.edu.itba.pod.api.models.Pair;
 import com.hazelcast.mapreduce.Reducer;
 import com.hazelcast.mapreduce.ReducerFactory;
 
-public class SecondQueryReducerFactory implements ReducerFactory<Integer, Pair<Boolean, Integer>, Pair<Integer, Integer>> {
+public class SecondQueryReducerFactory implements ReducerFactory<Integer, Pair<Integer, Integer>, Pair<Integer, Integer>> {
     @Override
-    public Reducer<Pair<Boolean, Integer>, Pair<Integer, Integer>> newReducer(Integer integer) {
+    public Reducer<Pair<Integer, Integer>, Pair<Integer, Integer>> newReducer(Integer integer) {
         return new SecondQueryReducer();
     }
 
@@ -16,17 +16,14 @@ public class SecondQueryReducerFactory implements ReducerFactory<Integer, Pair<B
         private int weekendCount = 0;
 
         @Override
-        public void reduce(Pair<Boolean, Integer> weekendCountPair) {
-            if (weekendCountPair.getFirst()) {
-                weekendCount += weekendCountPair.getSecond();
-            } else {
-                weekdayCount += weekendCountPair.getSecond();
-            }
+        public void reduce(Pair<Integer, Integer> weekendCountPair) {
+            weekdayCount += weekendCountPair.getFirst();
+            weekendCount += weekendCountPair.getSecond();
         }
 
         @Override
         public Pair<Integer, Integer> finalizeReduce() {
-            return new Pair<Integer, Integer>(weekdayCount, weekendCount);
+            return new Pair<>(weekdayCount, weekendCount);
         }
     }
 }

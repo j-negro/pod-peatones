@@ -1,6 +1,7 @@
 package ar.edu.itba.pod.client;
 
 import ar.edu.itba.pod.api.collators.SecondQueryCollator;
+import ar.edu.itba.pod.api.combiners.SecondQueryCombinerFactory;
 import ar.edu.itba.pod.api.mappers.SecondQueryMapper;
 import ar.edu.itba.pod.api.models.Pair;
 import ar.edu.itba.pod.api.models.Reading;
@@ -39,6 +40,7 @@ public class SecondQueryClient extends Query {
         query.logTime();
         ICompletableFuture<SortedSet<Map.Entry<Integer, Pair<Integer, Integer>>>> future = job
                 .mapper(new SecondQueryMapper())
+                .combiner(new SecondQueryCombinerFactory())
                 .reducer(new SecondQueryReducerFactory())
                 .submit(new SecondQueryCollator());
         SortedSet<Map.Entry<Integer, Pair<Integer, Integer>>> result = future.get();
