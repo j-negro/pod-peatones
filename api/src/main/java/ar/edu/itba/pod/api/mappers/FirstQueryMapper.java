@@ -20,10 +20,8 @@ public class FirstQueryMapper implements Mapper<String, Reading, String, Long>, 
     @Override
     public void map(String s, Reading reading, Context<String, Long> context) {
         IMap<Integer, Sensor> map = hazelcastInstance.getMap("sensors");
-
         Sensor sensor = map.get(reading.getSensorId());
         if(sensor.getStatus().equals("A") )
-            LOGGER.debug("mapping sensor"+ sensor.getDescription());
             context.emit(sensor.getDescription(), (long) reading.getHourlyCounts());
     }
 
