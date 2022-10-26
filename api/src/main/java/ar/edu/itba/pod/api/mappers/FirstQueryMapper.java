@@ -3,18 +3,15 @@ package ar.edu.itba.pod.api.mappers;
 import ar.edu.itba.pod.api.HazelcastCollections;
 import ar.edu.itba.pod.api.models.Reading;
 import ar.edu.itba.pod.api.models.Sensor;
-import ar.edu.itba.pod.api.models.Status;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.HazelcastInstanceAware;
 import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Context;
 import com.hazelcast.mapreduce.Mapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class FirstQueryMapper implements Mapper<String, Reading, String, Long>, HazelcastInstanceAware {
-    
+
     private HazelcastInstance hazelcastInstance;
 
     @Override
