@@ -25,6 +25,14 @@ public class Pair<T, U> implements DataSerializable {
         return second;
     }
 
+    public void setFirst(T first) {
+        this.first = first;
+    }
+
+    public void setSecond(U second) {
+        this.second = second;
+    }
+
     @Override
     public void writeData(ObjectDataOutput out) throws IOException {
         out.writeObject(first);
