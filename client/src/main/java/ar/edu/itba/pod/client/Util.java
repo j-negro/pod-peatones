@@ -5,6 +5,8 @@ import ar.edu.itba.pod.api.models.Sensor;
 import ar.edu.itba.pod.api.models.Status;
 import com.hazelcast.core.IList;
 import com.hazelcast.core.IMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,6 +19,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Util {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Util.class);
+
     public static Collection<Reading> readReadings(Path path) throws IOException {
         return Files.readAllLines(path)
                 .parallelStream().skip(1)
@@ -72,6 +77,7 @@ public class Util {
         List<Reading> aux = new ArrayList<>();
         int i = 0;
         do {
+            LOGGER.info("Reading batch {}", i+1);
             aux.clear();
             try (Stream<String> lines = Files.lines(path)) {
                 lines.skip(1 + (long) i *BATCH_SIZE).limit(BATCH_SIZE)
