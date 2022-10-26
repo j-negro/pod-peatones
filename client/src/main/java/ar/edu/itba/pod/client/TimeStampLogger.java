@@ -19,11 +19,12 @@ public class TimeStampLogger {
 
     public TimeStampLogger(Path outPath) throws IOException {
         this.status = Status.START_READ;
-        this.writer = new FileWriter(outPath.toFile(), true);
+        this.writer = new FileWriter(outPath.toFile());
     }
 
     public void log() {
         Date now = new Date();
+        logger.info("{} - {}", sdf.format(now), status);
         try {
             writer.write(sdf.format(now) + " - " + status + '\n');
         } catch (Exception e) {
@@ -46,6 +47,11 @@ public class TimeStampLogger {
                 break;
             case END_MAPREDUCE:
                 status = null;
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    logger.error("Could not log timestamps");
+                }
                 break;
             default:
                 throw new IllegalStateException();
