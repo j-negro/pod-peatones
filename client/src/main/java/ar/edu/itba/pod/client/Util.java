@@ -9,7 +9,9 @@ import com.hazelcast.core.IMap;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -51,6 +53,8 @@ public class Util {
         collection.parallelStream().forEach(s -> map.put(s.getSensorId(), s));
     }
 
+    private static final int BATCH_SIZE = 1000000;
+
     public static void readAndImportSensors(IMap<Integer, Sensor> map, Path path) throws IOException {
         try (Stream<String> lines = Files.lines(path)) {
             lines.skip(1)
@@ -65,19 +69,28 @@ public class Util {
     }
 
     public static void readAndImportReadings(IList<Reading> list, Path path) throws IOException {
-        try (Stream<String> lines = Files.lines(path)) {
-            lines.skip(1)
-                    .map(l -> l.split(";"))
-                    .map(v -> new Reading(
-                            Integer.parseInt(v[2]),
-                            v[3],
-                            Integer.parseInt(v[4]),
-                            v[5],
-                            Integer.parseInt(v[6]),
-                            Integer.parseInt(v[7]),
-                            Integer.parseInt(v[9])
-                    ))
-                    .forEach(list::add);
+        List<Reading> aux = new ArrayList<>();
+        int i = 0;
+        do {
+            aux.clear();
+            try (Stream<String> lines = Files.lines(path)) {
+                lines.skip(1 + (long) i *BATCH_SIZE).limit(BATCH_SIZE)
+                        .map(l -> l.split(";"))
+                        .map(v -> new Reading(
+                                Integer.parseInt(v[2]),
+                                v[3],
+                                Integer.parseInt(v[4]),
+                                v[5],
+                                Integer.parseInt(v[6]),
+                                Integer.parseInt(v[7]),
+                                Integer.parseInt(v[9])
+                        ))
+                        .forEach(aux::add);
+                i++;
+
+                list.addAll(aux);
+            }
         }
+        while (aux.size() == BATCH_SIZE);
     }
 }
