@@ -1,6 +1,6 @@
 package ar.edu.itba.pod.client;
 
-import ar.edu.itba.pod.api.colators.FirstQueryColator;
+import ar.edu.itba.pod.api.collators.FirstQueryColator;
 import ar.edu.itba.pod.api.mappers.FirstQueryMapper;
 import ar.edu.itba.pod.api.models.Reading;
 import ar.edu.itba.pod.api.reducers.FirstQueryReducerFactory;
@@ -12,9 +12,7 @@ import com.hazelcast.mapreduce.KeyValueSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.concurrent.ExecutionException;
 

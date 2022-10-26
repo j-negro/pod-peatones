@@ -1,5 +1,7 @@
-package ar.edu.itba.pod.client.query4;
+package ar.edu.itba.pod.api.mappers;
 
+import ar.edu.itba.pod.api.HazelcastCollections;
+import ar.edu.itba.pod.api.models.Pair;
 import ar.edu.itba.pod.api.models.Reading;
 import ar.edu.itba.pod.api.models.Sensor;
 import ar.edu.itba.pod.api.models.Status;
