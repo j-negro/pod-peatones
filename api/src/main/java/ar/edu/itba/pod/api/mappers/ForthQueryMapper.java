@@ -18,11 +18,10 @@ public class ForthQueryMapper implements Mapper<String, Reading, String, Pair<St
     private static  final Logger LOGGER = LoggerFactory.getLogger(ForthQueryMapper.class);
     private HazelcastInstance hazelcastInstance;
 
-    private final Long year, n;
+    private final Long year;
 
-    public ForthQueryMapper(Long year, Long n) {
+    public ForthQueryMapper(Long year) {
         this.year = year;
-        this.n = n;
     }
 
     @Override
