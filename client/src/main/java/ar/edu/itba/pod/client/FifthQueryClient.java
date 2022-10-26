@@ -61,6 +61,7 @@ public class FifthQueryClient extends Query {
                 .submit(new FifthQueryCollator());
         Collection<Map.Entry<Long, Pair<String, String>>> billionSet = billionPairings.get();
 
+        query.outputLine("Group;Sensor A;Sensor B");
         for(Map.Entry<Long, Pair<String, String>> me : billionSet) {
             String sb = String.valueOf(me.getKey() * 1000000) +
                     ';' +
