@@ -75,36 +75,28 @@ public abstract class Query {
 
     public IMap<Integer, Sensor> setupSensorsMap() {
         IMap<Integer, Sensor> map = client.getMap(HazelcastCollections.SENSORS);
-
         Path path = Path.of(inPath, "sensors.csv");
-        Collection<Sensor> sensors = null;
 
         try {
-            sensors = Util.readSensors(path);
+            Util.readAndImportSensors(map, path);
         } catch (IOException e) {
             LOGGER.error("Could not import sensors from file {}, {}", path, e.getMessage());
             exit(1);
         }
-
-        Util.importSensors(map, sensors);
 
         return map;
     }
 
     public IList<Reading> setupReadingsList() {
         IList<Reading> list = client.getList(HazelcastCollections.READINGS);
-
         Path path = Path.of(inPath, "readings.csv");
-        Collection<Reading> readings = null;
 
         try {
-            readings = Util.readReadings(path);
+            Util.readAndImportReadings(list, path);
         } catch (IOException e) {
             LOGGER.error("Could not import readings from file {}, {}", path, e.getMessage());
             exit(1);
         }
-
-        Util.importReadings(list, readings);
 
         return list;
     }
