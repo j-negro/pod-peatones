@@ -33,7 +33,7 @@ public class FirstQueryClient extends Query {
         IList<Reading> readings = query.setupReadingsList();
         query.logTime();
 
-        JobTracker t = query.client.getJobTracker("citizen-count");
+        JobTracker t = query.client.getJobTracker("g8-citizen-count");
         final KeyValueSource<String, Reading> sourceList = KeyValueSource.fromList(readings);
         Job<String, Reading> job = t.newJob(sourceList);
 

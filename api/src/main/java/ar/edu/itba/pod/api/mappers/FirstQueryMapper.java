@@ -1,5 +1,6 @@
 package ar.edu.itba.pod.api.mappers;
 
+import ar.edu.itba.pod.api.HazelcastCollections;
 import ar.edu.itba.pod.api.models.Reading;
 import ar.edu.itba.pod.api.models.Sensor;
 import ar.edu.itba.pod.api.models.Status;
@@ -19,7 +20,8 @@ public class FirstQueryMapper implements Mapper<String, Reading, String, Long>, 
 
     @Override
     public void map(String s, Reading reading, Context<String, Long> context) {
-        IMap<Integer, Sensor> map = hazelcastInstance.getMap("sensors");
+        IMap<Integer, Sensor> map = hazelcastInstance.getMap(HazelcastCollections.SENSORS);
+
         Sensor sensor = map.get(reading.getSensorId());
         if(sensor.getStatus().equals("A") )
             context.emit(sensor.getDescription(), (long) reading.getHourlyCounts());
