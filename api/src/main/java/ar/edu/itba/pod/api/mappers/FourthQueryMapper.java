@@ -4,7 +4,6 @@ import ar.edu.itba.pod.api.HazelcastCollections;
 import ar.edu.itba.pod.api.models.Pair;
 import ar.edu.itba.pod.api.models.Reading;
 import ar.edu.itba.pod.api.models.Sensor;
-import ar.edu.itba.pod.api.models.Status;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.HazelcastInstanceAware;
 import com.hazelcast.core.IMap;
@@ -13,14 +12,14 @@ import com.hazelcast.mapreduce.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ForthQueryMapper implements Mapper<String, Reading, String, Pair<String, Integer>>, HazelcastInstanceAware {
+public class FourthQueryMapper implements Mapper<String, Reading, String, Pair<String, Integer>>, HazelcastInstanceAware {
 
-    private static  final Logger LOGGER = LoggerFactory.getLogger(ForthQueryMapper.class);
+    private static  final Logger LOGGER = LoggerFactory.getLogger(FourthQueryMapper.class);
     private HazelcastInstance hazelcastInstance;
 
     private final Long year;
 
-    public ForthQueryMapper(Long year) {
+    public FourthQueryMapper(Long year) {
         this.year = year;
     }
 

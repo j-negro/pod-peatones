@@ -6,23 +6,22 @@ import com.hazelcast.mapreduce.ReducerFactory;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.*;
 
-public class ForthQueryReducerFactory implements
+public class FourthQueryReducerFactory implements
         ReducerFactory<String, Pair<String, Integer>, Pair<String, Double>> {
 
     private final int year;
 
-    public ForthQueryReducerFactory(int year) {
+    public FourthQueryReducerFactory(int year) {
         this.year = year;
     }
 
     @Override
     public Reducer<Pair<String, Integer>, Pair<String, Double>> newReducer(String s) {
         return new Reducer<>() {
-            Map<String, Long> monthToCount = new HashMap<>();
+            final Map<String, Long> monthToCount = new HashMap<>();
 
             @Override
             public void reduce(Pair<String, Integer> entry) {
@@ -64,8 +63,7 @@ public class ForthQueryReducerFactory implements
 
             private int getDayCountInMonth(int year, int month) {
                 YearMonth yearMonthObject = YearMonth.of(year, month+1);
-                int daysInMonth = yearMonthObject.lengthOfMonth();
-                return daysInMonth;
+                return yearMonthObject.lengthOfMonth();
             }
         };
     }

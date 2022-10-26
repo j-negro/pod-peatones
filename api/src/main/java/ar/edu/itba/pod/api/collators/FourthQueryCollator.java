@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class ForthQueryCollator implements Collator<Map.Entry<String, Pair<String, Double>>, SortedSet<Map.Entry<String, Pair<String, Double>>>> {
+public class FourthQueryCollator implements Collator<Map.Entry<String, Pair<String, Double>>, SortedSet<Map.Entry<String, Pair<String, Double>>>> {
 
     private final Comparator<Map.Entry<String, Pair<String, Double>>> COMPARATOR = Comparator
             .comparingDouble((Map.Entry<String, Pair<String, Double>> o) -> o.getValue().getSecond()).reversed()
@@ -17,7 +17,7 @@ public class ForthQueryCollator implements Collator<Map.Entry<String, Pair<Strin
 
     private final long n;
 
-    public ForthQueryCollator(long n) {
+    public FourthQueryCollator(long n) {
         this.n = n;
     }
 
