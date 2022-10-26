@@ -17,16 +17,16 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.concurrent.ExecutionException;
 
-public class ForthQueryClient extends Query {
+public class FourthQueryClient extends Query {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ForthQueryClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FourthQueryClient.class);
 
-    public ForthQueryClient() {
+    public FourthQueryClient() {
         super(4);
     }
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        Query query = new ForthQueryClient();
+        Query query = new FourthQueryClient();
 
         query.logTime();
         query.setupSensorsMap();
@@ -39,16 +39,16 @@ public class ForthQueryClient extends Query {
 
         long year = 0;
         try {
-            year = Long.parseLong(System.getProperty("year", "0"));
+            year = Long.parseLong(System.getProperty("year", "2020"));
         } catch(NumberFormatException e) {
             LOGGER.error(e.getMessage());
             query.shutdown();
             System.exit(1);
         }
 
-        long n = 0;
+        long n = 5;
         try {
-            n = Long.parseLong(System.getProperty("n", "0"));
+            n = Long.parseLong(System.getProperty("n", "5"));
         } catch(NumberFormatException e) {
             LOGGER.error(e.getMessage());
             query.shutdown();

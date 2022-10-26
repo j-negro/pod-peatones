@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class FourthQueryCollator implements Collator<Map.Entry<String, Pair<String, Double>>, SortedSet<Map.Entry<String, Pair<String, Double>>>> {
 
@@ -25,12 +26,10 @@ public class FourthQueryCollator implements Collator<Map.Entry<String, Pair<Stri
     public SortedSet<Map.Entry<String, Pair<String, Double>>> collate(Iterable<Map.Entry<String, Pair<String, Double>>> values) {
         SortedSet<Map.Entry<String, Pair<String, Double>>> set =
                 new TreeSet<>(COMPARATOR);
-        int i = 0;
         for (Map.Entry<String, Pair<String, Double>> entry : values) {
-            // if (i < n) break;
             set.add(entry);
-            i++;
         }
-        return set;
+
+        return set.stream().limit(n).collect(Collectors.toCollection( () -> new TreeSet<>(COMPARATOR)));
     }
 }
