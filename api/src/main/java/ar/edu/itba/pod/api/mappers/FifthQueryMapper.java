@@ -9,9 +9,7 @@ import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Context;
 import com.hazelcast.mapreduce.Mapper;
 
-public class FifthQueryMapper implements Mapper<String, Long, Long, String>, HazelcastInstanceAware {
-
-    private HazelcastInstance hazelcastInstance;
+public class FifthQueryMapper implements Mapper<String, Long, Long, String> {
 
     @Override
     public void map(String s, Long count, Context<Long, String> context) {
@@ -20,8 +18,4 @@ public class FifthQueryMapper implements Mapper<String, Long, Long, String>, Haz
             context.emit(billionCount, s);
     }
 
-    @Override
-    public void setHazelcastInstance(HazelcastInstance hazelcastInstance) {
-        this.hazelcastInstance = hazelcastInstance;
-    }
 }
