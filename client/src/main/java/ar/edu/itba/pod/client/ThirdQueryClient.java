@@ -54,8 +54,6 @@ public class ThirdQueryClient extends Query {
                 job.mapper(new ThirdQueryMapper(min)).reducer(new ThirdQueryReducerFactory()).submit(new ThirdQueryCollator());
         Collection<Map.Entry<String, Pair<Integer, LocalDateTime>>> result = future.get();
 
-        System.out.println("Map size: "+result.size());
-
         query.outputLine("Sensor;Max_Reading_Count;Max_Reading_DateTime");
         for(Map.Entry<String, Pair<Integer, LocalDateTime>> entry : result) {
             String line = entry.getKey() +
