@@ -53,7 +53,7 @@ public class Util {
         collection.parallelStream().forEach(s -> map.put(s.getSensorId(), s));
     }
 
-    private static final int BATCH_SIZE = 1000000;
+    private static final int BATCH_SIZE = 500000;
 
     public static void readAndImportSensors(IMap<Integer, Sensor> map, Path path) throws IOException {
         try (Stream<String> lines = Files.lines(path)) {
