@@ -64,7 +64,7 @@ public class ForthQueryClient extends Query {
 
         query.logTime();
         ICompletableFuture<SortedSet<Map.Entry<String, Pair<String, Double>>>> future =
-                job.mapper(new ForthQueryMapper(year)).reducer(new ForthQueryReducerFactory()).submit(new ForthQueryCollator(n));
+                job.mapper(new ForthQueryMapper(year)).reducer(new ForthQueryReducerFactory(Math.toIntExact(year))).submit(new ForthQueryCollator(n));
         SortedSet<Map.Entry<String, Pair<String, Double>>> result = future.get();
 
         query.outputLine("Sensor;Max_Reading_Count;Max_Reading_DateTime");
