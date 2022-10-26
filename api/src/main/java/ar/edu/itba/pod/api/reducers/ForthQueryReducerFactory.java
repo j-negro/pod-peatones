@@ -4,47 +4,68 @@ import ar.edu.itba.pod.api.models.Pair;
 import com.hazelcast.mapreduce.Reducer;
 import com.hazelcast.mapreduce.ReducerFactory;
 
-import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.YearMonth;
+import java.util.*;
 
 public class ForthQueryReducerFactory implements
         ReducerFactory<String, Pair<String, Integer>, Pair<String, Double>> {
 
-    private static final Comparator<Pair<Integer, LocalDateTime>> COMPARATOR =
-            Comparator.comparingInt((Pair<Integer, LocalDateTime> o) -> o.getFirst()).thenComparing(Pair::getSecond);
+    private final int year;
+
+    public ForthQueryReducerFactory(int year) {
+        this.year = year;
+    }
 
     @Override
     public Reducer<Pair<String, Integer>, Pair<String, Double>> newReducer(String s) {
         return new Reducer<>() {
-            Map<String, Pair<Long, Integer>> monthToAvg = new HashMap<>();
+            Map<String, Long> monthToCount = new HashMap<>();
 
             @Override
             public void reduce(Pair<String, Integer> entry) {
                 if (entry.getFirst() == null || entry.getSecond() == null) return;
 
-                monthToAvg.putIfAbsent(entry.getFirst(), new Pair<>(0L, 0)); // Add entry to month
-                Pair<Long, Integer> monthCount = monthToAvg.get(entry.getFirst());
-                monthCount.setFirst(monthCount.getFirst() + entry.getSecond());
-                monthCount.setSecond(monthCount.getSecond() + 1);
-
+                String sensor = entry.getFirst();
+                Integer count = entry.getSecond();
+                monthToCount.compute(sensor, (k, v) -> (v == null) ? count : v + count);
             }
 
             @Override
             public Pair<String, Double> finalizeReduce() {
-                Pair<String, Double> result = new Pair<>("", 0.0);
+                Pair<String, Double> result = new Pair<>(null, null);
 
-                for (Map.Entry<String, Pair<Long, Integer>> monthly : monthToAvg.entrySet()) {
-                    Double monthlyAvg = monthly.getValue().getFirst() / Double.valueOf(monthly.getValue().getSecond());
-                    if (result.getSecond() < monthlyAvg) {
-                        result.setFirst(monthly.getKey());
-                        result.setSecond(monthlyAvg);
+                for (Map.Entry<String, Long> entry : monthToCount.entrySet()) {
+                    Double currAvg = Double.valueOf(entry.getValue()) / getDayCountInMonth(year, getMonthOrdinalFromName(entry.getKey()));
+                    if (result.getSecond() == null || result.getSecond() < currAvg) {
+                        result.setFirst(entry.getKey());
+                        result.setSecond(currAvg);
                     }
                 }
 
                 return result;
+            }
+
+            private int getMonthOrdinalFromName(String name) {
+                Date date = null;
+                try {
+                    date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(name);
+                } catch (ParseException e) {
+                    System.err.println("ERROR " + name);
+                    System.err.flush();
+                    System.exit(1);
+                }
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                return cal.get(Calendar.MONTH);
+            }
+
+            private int getDayCountInMonth(int year, int month) {
+                YearMonth yearMonthObject = YearMonth.of(year, month+1);
+                int daysInMonth = yearMonthObject.lengthOfMonth();
+                return daysInMonth;
             }
         };
     }
