@@ -42,13 +42,13 @@ public class SecondQueryClient extends Query {
                 .reducer(new SecondQueryReducerFactory())
                 .submit(new SecondQueryCollator());
         SortedSet<Map.Entry<Integer, Pair<Integer, Integer>>> result = future.get();
-        query.logTime();
 
         query.outputLine("Year;Weekdays_Count;Weekends_Count;Total_Count");
         for (Map.Entry<Integer, Pair<Integer, Integer>> entry : result) {
             query.outputLine(entry.getKey() + ";" + entry.getValue().getFirst() + ";" + entry.getValue().getSecond()
                     + ";" + (entry.getValue().getFirst() + entry.getValue().getSecond()));
         }
+        query.logTime();
 
         query.shutdown();
     }
