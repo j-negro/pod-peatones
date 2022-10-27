@@ -49,6 +49,7 @@ public class FifthQueryClient extends Query {
         Map<String, Long> result = future.get();
 
         IMap<String, Long> countMap = query.client.getMap("g8-totalCount");
+        countMap.clear();
         countMap.putAll(result);
 
         JobTracker t2 = query.client.getJobTracker("g8-pair-by-millions");
@@ -72,7 +73,6 @@ public class FifthQueryClient extends Query {
         }
         query.logTime();
 
-        countMap.clear();
         query.shutdown();
     }
 }
