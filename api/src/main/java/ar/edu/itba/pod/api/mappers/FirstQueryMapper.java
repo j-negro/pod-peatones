@@ -12,7 +12,7 @@ import com.hazelcast.mapreduce.Mapper;
 
 public class FirstQueryMapper implements Mapper<String, Reading, String, Long>, HazelcastInstanceAware {
 
-    private HazelcastInstance hazelcastInstance;
+    private transient HazelcastInstance hazelcastInstance;
 
     @Override
     public void map(String s, Reading reading, Context<String, Long> context) {

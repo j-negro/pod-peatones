@@ -18,7 +18,7 @@ public class ThirdQueryMapper implements
         HazelcastInstanceAware {
     private final long threshold;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d yyyy H");
-    private HazelcastInstance hazelcastInstance;
+    private transient HazelcastInstance hazelcastInstance;
 
     public ThirdQueryMapper(long threshold) {
         this.threshold = threshold;

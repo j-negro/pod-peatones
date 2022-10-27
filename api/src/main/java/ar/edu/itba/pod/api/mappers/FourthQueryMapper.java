@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public class FourthQueryMapper implements Mapper<String, Reading, String, Pair<String, Integer>>, HazelcastInstanceAware {
 
     private static  final Logger LOGGER = LoggerFactory.getLogger(FourthQueryMapper.class);
-    private HazelcastInstance hazelcastInstance;
+    private transient HazelcastInstance hazelcastInstance;
 
     private final Long year;
 
