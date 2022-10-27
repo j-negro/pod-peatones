@@ -10,8 +10,8 @@ public class FirstQueryReducerFactory implements ReducerFactory<String, Long, Lo
         return new CitizenCountReducer();
     }
 
-    private class  CitizenCountReducer extends Reducer<Long, Long>{
-        private volatile long sum;
+    private static class  CitizenCountReducer extends Reducer<Long, Long>{
+        private long sum;
 
         @Override
         public void beginReduce(){ sum = 0;}
