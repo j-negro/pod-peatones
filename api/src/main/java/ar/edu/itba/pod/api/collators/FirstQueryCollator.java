@@ -3,9 +3,11 @@ package ar.edu.itba.pod.api.collators;
 
 import com.hazelcast.mapreduce.Collator;
 
-import java.util.*;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-public class FirstQueryColator implements Collator<Map.Entry<String, Long>, SortedSet<Map.Entry<String, Long>>> {
+public class FirstQueryCollator implements Collator<Map.Entry<String, Long>, SortedSet<Map.Entry<String, Long>>> {
 
     @Override
     public SortedSet<Map.Entry<String, Long>> collate(Iterable<Map.Entry<String, Long>> values) {
