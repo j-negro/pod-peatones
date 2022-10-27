@@ -10,7 +10,7 @@ public class SecondQueryReducerFactory implements ReducerFactory<Integer, Pair<I
         return new SecondQueryReducer();
     }
 
-    private static class SecondQueryReducer extends Reducer<Pair<Boolean, Integer>, Pair<Integer, Integer>> {
+    private static class SecondQueryReducer extends Reducer<Pair<Integer, Integer>, Pair<Integer, Integer>> {
 
         private int weekdayCount = 0;
         private int weekendCount = 0;
