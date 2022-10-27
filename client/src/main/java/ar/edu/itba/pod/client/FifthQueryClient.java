@@ -72,6 +72,7 @@ public class FifthQueryClient extends Query {
         }
         query.logTime();
 
+        countMap.clear();
         query.shutdown();
     }
 }
