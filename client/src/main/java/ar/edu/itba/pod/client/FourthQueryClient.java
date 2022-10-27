@@ -55,9 +55,17 @@ public class FourthQueryClient extends Query {
             System.exit(1);
         }
 
+        if (year <= 0 || n <= 0) {
+            LOGGER.error("Invalid arguments");
+            query.shutdown();
+            System.exit(1);
+        }
+
         query.logTime();
-        ICompletableFuture<SortedSet<Map.Entry<String, Pair<String, Double>>>> future =
-                job.mapper(new FourthQueryMapper(year)).reducer(new FourthQueryReducerFactory(Math.toIntExact(year))).submit(new FourthQueryCollator(n));
+        ICompletableFuture<SortedSet<Map.Entry<String, Pair<String, Double>>>> future = job
+                .mapper(new FourthQueryMapper(year))
+                .reducer(new FourthQueryReducerFactory(Math.toIntExact(year)))
+                .submit(new FourthQueryCollator(n));
         SortedSet<Map.Entry<String, Pair<String, Double>>> result = future.get();
 
         query.outputLine("Sensor;Max_Reading_Count;Max_Reading_DateTime");
