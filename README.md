@@ -30,6 +30,8 @@ que estan listados a continuación.
     + `query3`
     + `query4`
     + `query5`
+    
+_Nota:_ en el repositorio actualmente existen más ramas además de main. En las mismas están implementadas las queries 1 y 2 pero con la utilización del combiner. Si se quiere testear dichas queries utilizando el combiner, basta con checkoutear a esa rama y repetir el proceso de instalación.
 
 ## Funcionamiento general
 Para poder utilizar el sistema se deben correr uno o mas nodos de _Hazelcast_ con
