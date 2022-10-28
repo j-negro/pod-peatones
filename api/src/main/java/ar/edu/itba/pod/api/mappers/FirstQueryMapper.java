@@ -18,11 +18,10 @@ public class FirstQueryMapper implements Mapper<String, Reading, String, Long>, 
     public void map(String s, Reading reading, Context<String, Long> context) {
         IMap<Integer, Sensor> map = hazelcastInstance.getMap(HazelcastCollections.SENSORS);
 
-        if(map.containsKey(reading.getSensorId())){
             Sensor sensor = map.get(reading.getSensorId());
-            if(sensor.isActive())
+            if(sensor != null && sensor.isActive())
                 context.emit(sensor.getDescription(), (long) reading.getHourlyCounts());
-        }
+
     }
 
     @Override

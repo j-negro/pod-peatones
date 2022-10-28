@@ -1,6 +1,6 @@
 package ar.edu.itba.pod.client;
 
-import ar.edu.itba.pod.api.collators.FirstQueryColator;
+import ar.edu.itba.pod.api.collators.FirstQueryCollator;
 import ar.edu.itba.pod.api.mappers.FirstQueryMapper;
 import ar.edu.itba.pod.api.models.Reading;
 import ar.edu.itba.pod.api.reducers.FirstQueryReducerFactory;
@@ -37,7 +37,7 @@ public class FirstQueryClient extends Query {
 
         query.logTime();
         ICompletableFuture<SortedSet<Map.Entry<String, Long>>> future = job.mapper( new FirstQueryMapper() )
-                .reducer( new FirstQueryReducerFactory() ).submit( new FirstQueryColator());
+                .reducer( new FirstQueryReducerFactory() ).submit( new FirstQueryCollator());
 
         SortedSet<Map.Entry<String, Long>> result = future.get();
 
